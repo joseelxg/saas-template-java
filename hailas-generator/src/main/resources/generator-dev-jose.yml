@@ -1,0 +1,14 @@
+# 代码生成
+gen: 
+  # 作者
+  author: jose
+  # 默认生成路径
+  genPath: /Users/jose/Documents/git/java/saas-template/hailas-admin/src
+  genCompanyPath: /Users/jose/Documents/git/java/saas-template/hailas-company/src
+  genDomainPath: /Users/jose/Documents/git/java/saas-template/hailas-common/src
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: com.hailas.bis
+  # 自动去除表前缀，默认是false
+  autoRemovePre: true
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix: sys_,tb_,com_

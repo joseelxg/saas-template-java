@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailas.bis.mapper.CompanyDeviceMapper">
+    
+    <resultMap type="CompanyDevice" id="CompanyDeviceResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="name"    column="name"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="serverPort"    column="server_port"    />
+        <result property="lat"    column="lat"    />
+        <result property="lan"    column="lan"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="companyName"    column="companyName"    />
+    </resultMap>
+
+    <sql id="selectCompanyDeviceVo">
+            cd.`id`,
+            cd.`type`,
+            cd.`company_id`,
+            cd.`name`,
+            cd.`device_id`,
+            cd.`server_port`,
+            cd.`lat`,
+            cd.`lan`,
+            cd.`remark`,
+            cd.`create_by`,
+            cd.`update_by`,
+            cd.`create_time`,
+            cd.`update_time`,
+            cd.`deleted`
+    </sql>
+
+    <select id="selectCompanyDeviceList" parameterType="CompanyDevice" resultMap="CompanyDeviceResult">
+        select <include refid="selectCompanyDeviceVo"/>,
+        cc.name companyName
+        from com_device  cd
+        left join com_company cc on cd.company_id=cc.id
+        <where>
+            cd.deleted=0
+            <if test="name != null  and name != ''"> and cd.name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCompanyDeviceById" parameterType="Long" resultMap="CompanyDeviceResult">
+        select <include refid="selectCompanyDeviceVo"/>
+        from com_device  cd
+        where cd.id = #{id} and cd.deleted=0
+    </select>
+        
+    <insert id="insertCompanyDevice" parameterType="CompanyDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into com_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">`type`,</if>
+            <if test="companyId != null">`company_id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="deviceId != null">`device_id`,</if>
+            <if test="serverPort != null">`server_port`,</if>
+            <if test="lat != null">`lat`,</if>
+            <if test="lan != null">`lan`,</if>
+            <if test="remark != null">`remark`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="updateTime != null">`update_time`,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="serverPort != null">#{serverPort},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="lan != null">#{lan},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompanyDevice" parameterType="CompanyDevice">
+        update com_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">`type` = #{type},</if>
+            <if test="companyId != null">`company_id` = #{companyId},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="deviceId != null">`device_id` = #{deviceId},</if>
+            <if test="serverPort != null">`server_port` = #{serverPort},</if>
+            <if test="lat != null">`lat` = #{lat},</if>
+            <if test="lan != null">`lan` = #{lan},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCompanyDeviceById" parameterType="Long">
+        update com_device set deleted=1, update_time=now(),update_by=#{deleteBy} where id = #{id}
+    </update>
+
+    <update id="deleteCompanyDeviceByIds" parameterType="String">
+        update com_device set deleted=1, update_time=now(),update_by=#{deleteBy}  where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

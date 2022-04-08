@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailas.system.mapper.CompanyMapper">
+
+    <resultMap type="Company" id="CompanyResult">
+        <result property="id"    column="id"    />
+        <result property="platformName"    column="platform_name"    />
+        <result property="name"    column="name"    />
+        <result property="remark"    column="remark"    />
+        <result property="leader"    column="leader"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectCompanyVo">
+        cc.`id`,
+            cc.`platform_name`,
+            cc.`name`,
+            cc.`remark`,
+            cc.`leader`,
+            cc.`phone`,
+            cc.`email`,
+            cc.`status`,
+            cc.`create_by`,
+            cc.`update_by`,
+            cc.`create_time`,
+            cc.`update_time`,
+            cc.`deleted`
+    </sql>
+
+    <select id="selectCompanyList" parameterType="Company" resultMap="CompanyResult">
+        select <include refid="selectCompanyVo"/>
+        from com_company  cc
+        <where>
+            cc.deleted=0
+            <if test="platformName != null  and platformName != ''"> and cc.platform_name like concat('%', #{platformName}, '%')</if>
+            <if test="name != null  and name != ''"> and cc.name like concat('%', #{name}, '%')</if>
+            <if test="leader != null  and leader != ''"> and cc.leader = #{leader}</if>
+            <if test="phone != null  and phone != ''"> and cc.phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and cc.email = #{email}</if>
+            <if test="status != null  and status != ''"> and cc.status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectCompanyById" parameterType="Long" resultMap="CompanyResult">
+        select <include refid="selectCompanyVo"/>
+        from com_company  cc
+        where cc.id = #{id} and cc.deleted=0
+    </select>
+
+    <insert id="insertCompany" parameterType="Company" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into com_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">`id`,</if>
+            <if test="platformName != null">`platform_name`,</if>
+            <if test="name != null and name != ''">`name`,</if>
+            <if test="remark != null">`remark`,</if>
+            <if test="leader != null">`leader`,</if>
+            <if test="phone != null">`phone`,</if>
+            <if test="email != null">`email`,</if>
+            <if test="status != null">`status`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="updateTime != null">`update_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="platformName != null">#{platformName},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="leader != null">#{leader},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCompany" parameterType="Company">
+        update com_company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="platformName != null">`platform_name` = #{platformName},</if>
+            <if test="name != null and name != ''">`name` = #{name},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="leader != null">`leader` = #{leader},</if>
+            <if test="phone != null">`phone` = #{phone},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCompanyById" parameterType="Long">
+        update com_company set deleted=1, update_time=now(),update_by=#{deleteBy} where id = #{id}
+    </update>
+
+    <update id="deleteCompanyByIds" parameterType="String">
+        update com_company set deleted=1, update_time=now(),update_by=#{deleteBy}  where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

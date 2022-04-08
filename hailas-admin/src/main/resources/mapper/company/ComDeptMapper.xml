@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailas.company.mapper.ComDeptMapper">
+    
+    <insert id="insertDept" parameterType="SysDept" useGeneratedKeys="true" keyProperty="deptId" keyColumn="dept_id">
+ 		insert into com_dept(
+ 			<if test="deptId != null and deptId != 0">dept_id,</if>
+ 			<if test="parentId != null and parentId != 0">parent_id,</if>
+ 			<if test="deptName != null and deptName != ''">dept_name,</if>
+ 			<if test="ancestors != null and ancestors != ''">ancestors,</if>
+ 			<if test="orderNum != null and orderNum != ''">order_num,</if>
+ 			<if test="leader != null and leader != ''">leader,</if>
+ 			<if test="phone != null and phone != ''">phone,</if>
+ 			<if test="email != null and email != ''">email,</if>
+ 			<if test="status != null">status,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="companyId != null and companyId != 0">company_id,</if>
+ 			create_time
+ 		)values(
+ 			<if test="deptId != null and deptId != 0">#{deptId},</if>
+ 			<if test="parentId != null and parentId != 0">#{parentId},</if>
+ 			<if test="deptName != null and deptName != ''">#{deptName},</if>
+ 			<if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+ 			<if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+ 			<if test="leader != null and leader != ''">#{leader},</if>
+ 			<if test="phone != null and phone != ''">#{phone},</if>
+ 			<if test="email != null and email != ''">#{email},</if>
+ 			<if test="status != null">#{status},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="companyId != null and companyId != 0">#{companyId},</if>
+ 			sysdate()
+ 		)
+	</insert>
+
+
+</mapper> 

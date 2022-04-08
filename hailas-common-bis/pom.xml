@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hailas</artifactId>
+        <groupId>com.hailas</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hailas-common-bis</artifactId>
+
+    <description>
+        业务相关的公共项目
+    </description>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.hailas</groupId>
+            <artifactId>hailas-common</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

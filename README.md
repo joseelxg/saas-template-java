@@ -1,6 +1,8 @@
 
 # SaaS管理平台
 
+[前端Vue项目](https://github.com/joseelxg/saas-template-vue)
+
 ## 平台简介
 
 该平台基于若依前后端分离版本的二次开发，赋予其SaaS能力。
